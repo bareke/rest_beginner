@@ -13,7 +13,7 @@ class HelloApiView(APIView):
     serializer_class = HelloSerializer
 
     def get(self, request, format=None):
-        """Returns a listo of APIView features"""
+        """Returns a list of APIView features"""
 
         an_apiview = [
             'Uses HTTP methods as function (get, post, patch, put, delete)',
@@ -27,7 +27,7 @@ class HelloApiView(APIView):
     def post(self, request):
         """Create a hello message with our name"""
 
-        serializer = self.serializer_class(data=request.datzza)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             name = serializer.validated_data.get('name')
             message = f'Hello {name}'
@@ -67,7 +67,7 @@ class HelloViewSet(viewsets.ViewSet):
         ]
 
         return Response({'message': 'Hello', 'a_viewset': a_viewset})
-    
+
     def create(self, request):
         """Create a new hello message"""
 
@@ -82,7 +82,7 @@ class HelloViewSet(viewsets.ViewSet):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
-    
+
     def retrieve(self, request, pk=None):
         """Handle getting an object by its ID"""
         return Response({'http_method': 'GET'})
