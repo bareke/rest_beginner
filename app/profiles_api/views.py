@@ -1,9 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import serializers, status
-from rest_framework import viewsets
+from rest_framework import status
+from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.authentication import TokenAuthentication
 
+from .models import UserProfile
 from .serializers import HelloSerializer
+from .serializers import UserProfileSerializer
+from .permissions import UpdateOwnProfile
 
 # Create your endpoints here.
 
@@ -53,7 +58,8 @@ class HelloApiView(APIView):
 
         return Response({'method': 'DELETE'})
 
-class HelloViewSet(viewsets.ViewSet):
+
+class HelloViewSet(ViewSet):
     """Test API ViewSet"""
     serializer_class = HelloSerializer
 
@@ -94,7 +100,15 @@ class HelloViewSet(viewsets.ViewSet):
     def partial_update(self, request, pk=None):
         """Handle getting an object"""
         return Response({'http_method': 'PATCH'})
-    
+
     def destroy(self, request, pk=None):
         """Handle removing an object"""
         return Response({'http_method': 'DELETE'})
+
+
+class UserProfileViewSet(ModelViewSet):
+    """Handle creating and updating profiles"""
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (UpdateOwnProfile, )

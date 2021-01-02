@@ -3,6 +3,7 @@ from django.urls import include
 from rest_framework.routers import DefaultRouter
 
 from .views import HelloApiView
+from .views import UserProfileViewSet
 from .views import HelloViewSet
 
 # Create your urls here.
@@ -11,6 +12,7 @@ from .views import HelloViewSet
 router = DefaultRouter()
 
 router.register('hello-viewset', HelloViewSet, basename='hello-viewset')
+router.register('profiles', UserProfileViewSet)
 
 
 urlpatterns = [
